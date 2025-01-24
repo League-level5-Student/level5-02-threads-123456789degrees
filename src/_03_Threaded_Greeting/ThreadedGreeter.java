@@ -1,6 +1,6 @@
 package _03_Threaded_Greeting;
 
-public class ThreadedGreeting {
+public class ThreadedGreeter implements Runnable{
 	/*
 	 * The goal of this assignment is to create a chain of threads. Thread 1 will create Thread 2, 
 	 * Thread 2 will create Thread 3, Thread 3 will create Thread 4 and so on up to 50 threads.
@@ -17,7 +17,10 @@ public class ThreadedGreeting {
 	 * Hello from thread number: 7
 	 * etc...
 	 */
-	
+	int x;
+	public ThreadedGreeter(int x) {
+		this.x=x;
+	}
 	//1. Create a new class called ThreadedGreeter that implements the Runnable interface.
 	//   Be sure to implement the run() method.
 	
@@ -43,4 +46,21 @@ public class ThreadedGreeting {
 			e.printStackTrace();
 		}
 	}
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		System.out.println("Hello from thread number " + x);
+		if (x <= 50) {
+			Thread t = new Thread(new ThreadedGreeter(x+1));
+			t.start();
+			try {
+				t.join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+
 }

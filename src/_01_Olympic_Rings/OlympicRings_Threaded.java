@@ -6,11 +6,16 @@ public class OlympicRings_Threaded {
 	// Make A Program that uses Threads and robots to draw the Olympic rings. One robot should draw one ring simultaneously with the other 4 robots.
 	
 	public static void main(String[] args) {
-		Robot r1 = new Robot(100, 100);
-		Robot r2 = new Robot(200, 100);
-		Robot r3 = new Robot(300, 100);
-		Robot r4 = new Robot(150, 200);
-		Robot r5 = new Robot(200, 200);
+		Robot r1 = new Robot(500, 500);
+		Robot r2 = new Robot(800, 500);
+		Robot r3 = new Robot(1100, 500);
+		Robot r4 = new Robot(650, 700);
+		Robot r5 = new Robot(950, 700);
+		r1.penDown();
+		r2.penDown();
+		r3.penDown();
+		r4.penDown();
+		r5.penDown();
 		r1.setSpeed(10);
 		r2.setSpeed(10);
 		r3.setSpeed(10);
