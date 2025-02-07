@@ -19,16 +19,32 @@ public class SynchedSplitLoops {
 	static int counter = 0;
 	static Object threadLock = new Object();
 	public static void main(String[] args) {
-		synchronized(threadLock) {
 			Thread t1 = new Thread(() -> {
-				for(int i = 0; i < 100000; i++) {
-					counter++;
+				synchronized(threadLock) {
+					for(int i = 0; i < 100000; i++) {
+						counter++;
+						threadLock.notify(); //let other threads waiting on threadLock know that they can start
+						try {
+							threadLock.wait(); //pauses execution until another thread calls notify using threadLock
+						} catch (InterruptedException e) {
+							System.out.println("error!");
+						}
+					}
 				}
 			});
 			
 			Thread t2 = new Thread(() -> {
-				for(int i = 0; i < 100000; i++) {
-					System.out.println(counter);
+				synchronized(threadLock) {
+					for(int i = 0; i < 100000; i++) {
+						System.out.println(counter);
+						threadLock.notify(); //let other threads waiting on threadLock know that they can start
+						try {
+							threadLock.wait(); //pauses execution until another thread calls notify using threadLock
+						} catch (InterruptedException e) {
+							System.out.println("error!");
+						}
+
+					}
 				}
 			});
 			
@@ -41,8 +57,6 @@ public class SynchedSplitLoops {
 			} catch (InterruptedException e) {
 				System.err.println("Could not join threads");
 			}
-		}
-		
 		
 	}
 }
